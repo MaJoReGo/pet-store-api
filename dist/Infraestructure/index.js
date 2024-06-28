@@ -16,3 +16,4 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./datasources/auth.datasource.impl"), exports);
 __exportStar(require("./repositories/auth.repository.impl.ts"), exports);
+__exportStar(require("./mappers/user.mapper"), exports);
