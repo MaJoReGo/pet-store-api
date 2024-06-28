@@ -1,14 +1,14 @@
-import swaggerJSDoc, { OAS3Definition, OAS3Options } from "swagger-jsdoc";
+import swaggerJSDoc, { SwaggerDefinition } from 'swagger-jsdoc';
 
-const swaggerDefinition: OAS3Definition = {
-  openapi: "3.0.0",
+const swaggerDefinition: SwaggerDefinition = {
+  openapi: '3.0.0',
   info: {
-    title: "Documentacion de mi API",
-    version: "1.0.0",
+    title: 'Documentacion de mi API',
+    version: '1.0.0',
   },
   servers: [
     {
-      url: "http://localhost:3000",
+      url: 'http://localhost:3000',
     },
   ],
   components: {
@@ -21,7 +21,7 @@ const swaggerDefinition: OAS3Definition = {
     schemas: {
       user: {
         type: "object",
-        required: ["name", "album", "cover", "artist", "duration", "mediaId"],
+        required: ["name", "email", "password"],
         properties: {
           name: {
             type: "string",
@@ -29,16 +29,7 @@ const swaggerDefinition: OAS3Definition = {
           email: {
             type: "string",
           },
-        },
-      },
-      item: {
-        type: "object",
-        required: ["price", "qty"],
-        properties: {
-          price: {
-            type: "string",
-          },
-          qty: {
+          password: {
             type: "string",
           },
         },
@@ -46,10 +37,9 @@ const swaggerDefinition: OAS3Definition = {
     },
   },
 };
-
-const swaggerOptions: OAS3Options = {
+const options = {
   swaggerDefinition,
-  apis: ["./src/routes/*.ts"],
+  apis: ['./src/routes/*.ts'], // Ajusta esta ruta según tus archivos de rutas
 };
 
-export default swaggerJSDoc(swaggerOptions);
+export default options;

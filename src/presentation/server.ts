@@ -1,31 +1,36 @@
-import  express, { Router }  from "express"; 
+import express, { Application } from 'express';
+import { setupSwagger } from '../swaggerConfig'; // Ajusta la ruta según la ubicación de tu archivo
+import { Router } from 'express';
 
-interface Options{
-    port?: number;
-    routes: Router; 
+interface ServerConfig {
+  port: number;
+  routes: Router;
 }
 
-export class Server {   
-    
-    public readonly app = express();
-    private readonly port: number;
-    private readonly routes: Router; 
-   
-    constructor( options: Options ) {
-        const { port = 3100, routes } = options; 
-        this.port = port;
-        this.routes = routes; 
-    }
-        
-   async start() {
+export class Server {
+  private app: Application;
+  private port: number;
 
-        this.app.use( express.json() ); 
-        this.app.use( express.urlencoded({ extended: true }) ); 
+  constructor(config: ServerConfig) {
+    this.app = express();
+    this.port = config.port;
 
-        this.app.use(this.routes); 
+    // Middleware para analizar JSON
+    this.app.use(express.json());
 
-        this.app.listen(this.port, () => {
-            console.log(`Server is running on port ${this.port}`);
-        });
-   }
+    // Configurar rutas
+    this.app.use('/api', config.routes);
+
+    // Configurar Swagger
+    setupSwagger(this.app);
+  }
+
+  public start() {
+    this.app.listen(this.port, () => {
+      console.log(`Server running on http://localhost:${this.port}`);
+      console.log(`Swagger docs available on http://localhost:${this.port}/api-docs`);
+    });
+  }
 }
+
+

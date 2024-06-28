@@ -1,34 +1,26 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Server = void 0;
 const express_1 = __importDefault(require("express"));
+const swaggerConfig_1 = require("../swaggerConfig"); // Ajusta la ruta según la ubicación de tu archivo
 class Server {
-    constructor(options) {
+    constructor(config) {
         this.app = (0, express_1.default)();
-        const { port = 3100, routes } = options;
-        this.port = port;
-        this.routes = routes;
+        this.port = config.port;
+        // Middleware para analizar JSON
+        this.app.use(express_1.default.json());
+        // Configurar rutas
+        this.app.use('/api', config.routes);
+        // Configurar Swagger
+        (0, swaggerConfig_1.setupSwagger)(this.app);
     }
     start() {
-        return __awaiter(this, void 0, void 0, function* () {
-            this.app.use(express_1.default.json());
-            this.app.use(express_1.default.urlencoded({ extended: true }));
-            this.app.use(this.routes);
-            this.app.listen(this.port, () => {
-                console.log(`Server is running on port ${this.port}`);
-            });
+        this.app.listen(this.port, () => {
+            console.log(`Server running on http://localhost:${this.port}`);
+            console.log(`Swagger docs available on http://localhost:${this.port}/api-docs`);
         });
     }
 }

@@ -1,18 +1,14 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
 const swaggerDefinition = {
-    openapi: "3.0.0",
+    openapi: '3.0.0',
     info: {
-        title: "Documentacion de mi API",
-        version: "1.0.0",
+        title: 'Documentacion de mi API',
+        version: '1.0.0',
     },
     servers: [
         {
-            url: "http://localhost:3000",
+            url: 'http://localhost:3000',
         },
     ],
     components: {
@@ -25,7 +21,7 @@ const swaggerDefinition = {
         schemas: {
             user: {
                 type: "object",
-                required: ["name", "album", "cover", "artist", "duration", "mediaId"],
+                required: ["name", "email", "password"],
                 properties: {
                     name: {
                         type: "string",
@@ -33,16 +29,7 @@ const swaggerDefinition = {
                     email: {
                         type: "string",
                     },
-                },
-            },
-            item: {
-                type: "object",
-                required: ["price", "qty"],
-                properties: {
-                    price: {
-                        type: "string",
-                    },
-                    qty: {
+                    password: {
                         type: "string",
                     },
                 },
@@ -50,8 +37,8 @@ const swaggerDefinition = {
         },
     },
 };
-const swaggerOptions = {
+const options = {
     swaggerDefinition,
-    apis: ["./src/routes/*.ts"],
+    apis: ['./src/routes/*.ts'], // Ajusta esta ruta según tus archivos de rutas
 };
-exports.default = (0, swagger_jsdoc_1.default)(swaggerOptions);
+exports.default = options;
